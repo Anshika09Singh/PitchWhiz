@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🚀 Startup Pitch Classifier</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #f8f9fa, #e3f2fd);
+      margin: 0;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      background-color: white;
+      padding: 30px 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 180px;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      resize: vertical;
+      background-color: #fefefe;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #388e3c;
+    }
+
+    .output {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #ecfdf5;
+      border-left: 6px solid #2e7d32;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      font-family: monospace;
+    }
+
+    .error {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #fdecea;
+      border-left: 6px solid #d32f2f;
+      border-radius: 10px;
+      color: #b71c1c;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>🚀 Startup Pitch Classifier</h2>
+
+    <form method="POST" action="/">
+      <label for="emailBody">📩 Paste Startup Pitch Email:</label>
+      <textarea id="emailBody" name="emailBody" placeholder="Dear Auxano team, we are..."></textarea>
+      <button type="submit">📤 Classify Pitch</button>
+    </form>
+
+    {% if classified_data %}
+      <div class="output">
+        <strong>✅ Classified Result:</strong><br><br>
+        {{ classified_data | tojson(indent=2) }}
+      </div>
+    {% endif %}
+
+    {% if error %}
+      <div class="error">
+        <strong>❌ Error:</strong><br>
+        {{ error }}
+      </div>
+    {% endif %}
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+# 🔒 Sensitive files
+.env
+
+# 🐍 Python caches
+__pycache__/
+*.py[cod]
+*.pyo
+
+# 📦 Package metadata
+*.egg-info/
+dist/
+build/
+
+# 🧪 Virtual environments
+venv/
+env/
+.venv/
+
+# 🧪 Test coverage reports
+htmlcov/
+.coverage
+.coverage.*
+
+# 🪲 Logs
+*.log
+
+# 💻 OS/System files
+.DS_Store
+Thumbs.db
