@@ -1,115 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>🚀 Startup Pitch Classifier</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #f8f9fa, #e3f2fd);
-      margin: 0;
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🚀 AI Pitch Classifier</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Outfit", sans-serif;
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+          url("https://wallpaperaccess.com/full/1478181.jpg") no-repeat center
+            center fixed;
+        background-size: cover;
+        color: #fff;
+      }
 
-    .container {
-      max-width: 800px;
-      width: 100%;
-      background-color: white;
-      padding: 30px 40px;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
+      nav {
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(10px);
+        padding: 20px 40px;
+        position: sticky;
+        top: 0;
+        z-index: 999;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      }
 
-    h2 {
-      text-align: center;
-      color: #2c3e50;
-      margin-bottom: 20px;
-    }
+      nav h1 {
+        font-size: 28px;
+        color: #00ffc3;
+      }
 
-    label {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 10px;
-      font-size: 16px;
-    }
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 30px;
+      }
 
-    textarea {
-      width: 100%;
-      height: 180px;
-      padding: 12px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      resize: vertical;
-      background-color: #fefefe;
-    }
+      nav ul li a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: 600;
+        font-size: 17px;
+        transition: color 0.3s ease;
+      }
 
-    button {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      font-size: 18px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
+      nav ul li a:hover {
+        color: #00ffc3;
+      }
 
-    button:hover {
-      background-color: #388e3c;
-    }
+      .section {
+        padding: 90px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 0.8s ease;
+      }
 
-    .output {
-      margin-top: 30px;
-      padding: 20px;
-      background-color: #ecfdf5;
-      border-left: 6px solid #2e7d32;
-      border-radius: 10px;
-      white-space: pre-wrap;
-      font-family: monospace;
-    }
+      .section.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
 
-    .error {
-      margin-top: 20px;
-      padding: 20px;
-      background-color: #fdecea;
-      border-left: 6px solid #d32f2f;
-      border-radius: 10px;
-      color: #b71c1c;
-    }
-  </style>
-</head>
-<body>
+      .container {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(12px);
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        padding: 50px;
+        width: 90%;
+        max-width: 800px;
+      }
 
-  <div class="container">
-    <h2>🚀 Startup Pitch Classifier</h2>
+      h2 {
+        text-align: center;
+        font-size: 32px;
+        margin-bottom: 24px;
+        color: #ffffff;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+      }
 
-    <form method="POST" action="/">
-      <label for="emailBody">📩 Paste Startup Pitch Email:</label>
-      <textarea id="emailBody" name="emailBody" placeholder="Dear Auxano team, we are..."></textarea>
-      <button type="submit">📤 Classify Pitch</button>
-    </form>
+      p {
+        font-size: 18px;
+        line-height: 1.6;
+        text-align: center;
+      }
 
-    {% if classified_data %}
-      <div class="output">
-        <strong>✅ Classified Result:</strong><br><br>
-        {{ classified_data | tojson(indent=2) }}
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 600;
+        font-size: 18px;
+        color: #f1f1f1;
+      }
+
+      textarea {
+        width: 100%;
+        height: 180px;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        border-radius: 14px;
+        resize: vertical;
+        background-color: rgba(255, 255, 255, 0.15);
+        color: #ffffff;
+        margin-bottom: 24px;
+      }
+
+      button {
+        width: 100%;
+        padding: 16px;
+        font-size: 18px;
+        background: linear-gradient(145deg, #27ae60, #2ecc71);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.3s ease;
+      }
+
+      button:hover {
+        background: linear-gradient(145deg, #1e8449, #27ae60);
+      }
+
+      .output,
+      .error {
+        margin-top: 30px;
+        padding: 20px;
+        border-radius: 14px;
+        font-family: monospace;
+        white-space: pre-wrap;
+      }
+
+      .output {
+        background-color: rgba(46, 204, 113, 0.1);
+        border-left: 6px solid #2ecc71;
+        color: #aef1cd;
+      }
+
+      .error {
+        background-color: rgba(231, 76, 60, 0.1);
+        border-left: 6px solid #e74c3c;
+        color: #ffb3b3;
+      }
+
+      footer {
+        text-align: center;
+        padding: 40px 20px;
+        font-size: 15px;
+        color: #ccc;
+        background-color: rgba(0, 0, 0, 0.2);
+        margin-top: 60px;
+      }
+
+      @media (max-width: 600px) {
+        nav ul {
+          flex-direction: column;
+          gap: 10px;
+        }
+        h2 {
+          font-size: 26px;
+        }
+        button {
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav>
+      <h1>🧠 AI Classifier</h1>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#classifier">Classifier</a></li>
+        <li><a href="#summary">Summary</a></li>
+        <li><a href="#keywords">Keywords</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- Home Section -->
+    <section class="section" id="home">
+      <div class="container">
+        <h2>Welcome to the AI Pitch Classifier 🚀</h2>
+        <p>
+          Enter a startup email pitch and let our AI determine its relevance —
+          helping investors filter high-quality submissions faster.
+        </p>
       </div>
-    {% endif %}
+    </section>
 
-    {% if error %}
-      <div class="error">
-        <strong>❌ Error:</strong><br>
-        {{ error }}
+    <!-- Classifier Section -->
+    <section class="section" id="classifier">
+      <div class="container">
+        <h2>📬 Email Classifier</h2>
+        <form method="POST" action="/#classifier">
+          <label for="emailBody">Paste Email:</label>
+          <textarea
+            id="emailBody"
+            name="emailBody"
+            placeholder="Dear Auxano Capital, we are building..."
+          ></textarea>
+          <button type="submit">📤 Classify Email</button>
+        </form>
+
+        {% if classified_data %}
+        <div class="output">
+          <strong>✅ Classification Result:</strong><br /><br />
+          {{ classified_data | tojson(indent=2) }}
+        </div>
+        {% endif %} {% if error %}
+        <div class="error">
+          <strong>❌ Error:</strong><br />
+          {{ error }}
+        </div>
+        {% endif %}
       </div>
-    {% endif %}
-  </div>
+    </section>
 
-</body>
+    <!-- Summary Section -->
+    <section class="section" id="summary">
+      <div class="container">
+        <h2>🧾 AI Summary Generator</h2>
+        <form method="POST" action="/summary#summary">
+          <label for="summaryInput">Paste Email to Summarize:</label>
+          <textarea
+            id="summaryInput"
+            name="summaryInput"
+            placeholder="We are building a sustainable solution for logistics..."
+          ></textarea>
+          <button type="submit">📝 Generate Summary</button>
+        </form>
+
+        {% if summary %}
+        <div class="output">
+          <strong>🧠 Summary:</strong><br /><br />
+          {{ summary }}
+        </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- Keyword Extraction Section -->
+    <section class="section" id="keywords">
+      <div class="container">
+        <h2>🔍 Keyword Extractor</h2>
+        <form method="POST" action="/keywords#keywords">
+          <label for="keywordsInput">Paste Pitch Email for Keywords:</label>
+          <textarea
+            id="keywordsInput"
+            name="keywordsInput"
+            placeholder="We are building an AI-powered fintech platform..."
+          ></textarea>
+          <button type="submit">🔑 Extract Keywords</button>
+        </form>
+
+        {% if keywords %}
+        <div class="output">
+          <strong>🔑 Keywords:</strong><br /><br />
+          {{ keywords }}
+        </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+      <div class="container">
+        <h2>🤖 About This Tool</h2>
+        <p>
+          This platform uses AI models to classify startup pitch emails,
+          generate summaries, and extract keywords — helping VCs, accelerators,
+          and founders automate pitch triage and save time.
+        </p>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+      <div class="container">
+        <h2>📞 Contact Developer</h2>
+        <p>Created with ❤️ by Anshika Singh</p>
+        <p>
+          Email:
+          <a href="mailto:anshika1104singh@gmail" style="color: #00ffc3"
+            >anshika1104singh@gmail</a
+          >
+        </p>
+        <p>
+          GitHub:
+          <a
+            href="https://github.com/Anshika09singh"
+            target="_blank"
+            style="color: #00ffc3"
+            >github.com/Anshika09singh</a
+          >
+        </p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>© 2025 AI Pitch Classifier. Built by Anshika Singh.</footer>
+
+    <!-- Scroll Reveal Script -->
+    <script>
+      const sections = document.querySelectorAll(".section");
+      const revealOnScroll = () => {
+        sections.forEach((sec) => {
+          const rect = sec.getBoundingClientRect();
+          if (rect.top <= window.innerHeight - 100) {
+            sec.classList.add("visible");
+          }
+        });
+      };
+      window.addEventListener("scroll", revealOnScroll);
+      window.addEventListener("load", revealOnScroll);
+    </script>
+  </body>
 </html>
