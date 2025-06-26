@@ -1,32 +1,44 @@
-# 🚀 Auxano Pitch Automation
+# 🚀 AI Pitch Classifier – by Anshika Singh
 
-An end-to-end automation workflow to classify startup pitch emails using Google Gemini 1.5 Flash and save structured data to Airtable. This project eliminates manual email processing and speeds up CRM entry.
+Welcome to **AI Pitch Classifier**, your intelligent assistant for decoding startup pitches. Whether you're an investor, accelerator, or curious founder, this tool helps you classify, summarize, and extract keywords from any pitch email using smart AI models. 🎯
 
----
-
-## ✨ Features
-
-- 🔍 Extracts key details from pitch emails:
-  - `name`
-  - `sector`
-  - `stage`
-  - `pitch_deck_url`
-- 🤖 Uses **Gemini 1.5 Flash API** for natural language understanding
-- 🌐 Frontend form for testing via browser (HTML + Flask)
-- 📊 Optional: Pushes data to **Airtable** automatically
-- 💡 Easily extendable to support Notion, Zapier, or Make.com
+![Background](https://wallpaperaccess.com/full/1478181.jpg)
 
 ---
 
-## 🛠️ Tech Stack
+## 🔍 What It Does
 
-- Python 3.x
-- Flask (Web Server)
-- Google Generative AI (Gemini 1.5 Flash)
-- Airtable API
-- HTML, CSS (Frontend)
+🧠 **Classify Startup Pitches**  
+📝 **Generate Summaries**  
+🔑 **Extract Keywords**  
+📊 **Store Data (Airtable Integration)**
 
 ---
 
-## 📁 Directory Structure
+## 🌟 Features
 
+- 🎯 **Email Classifier**: Understands the intent, sector, and funding stage.
+- 📄 **Summary Generator**: Provides a crisp one-liner for any pitch.
+- 🧠 **Keyword Extractor**: Pulls key concepts for tagging and filtering.
+- 💾 **Airtable Ready**: Automatically stores classified results for later review.
+- 🎨 **Beautiful UI**: Styled with CSS gradients, glassmorphism, and smooth transitions.
+
+---
+
+## 💻 Tech Stack
+
+- `Python` + `Flask` – Web backend  
+- `HTML5`, `CSS3`, `JS` – Frontend  
+- `Jinja2` – Dynamic rendering  
+- `Airtable API` – For storing results  
+- *(Optional)* `Gemini` or `OpenAI` API – For actual AI classification & summaries
+
+---
+
+## 🛠 How to Run Locally
+
+```bash
+git clone https://github.com/123anshi/ai-pitch-classifier.git
+cd ai-pitch-classifier
+pip install -r requirements.txt
+python app.py
